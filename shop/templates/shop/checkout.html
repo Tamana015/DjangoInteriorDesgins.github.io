@@ -1,0 +1,143 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Checkout Page{% endblock %}
+{% block css %}
+h2.heading{
+    color:orange;
+    font-style:bold;
+    padding-top:5px;
+    padding-bottom:5px;
+    font-family: bold;
+     font-size: 4ex;
+
+}
+b.bold{
+    font-style:italic;
+}
+
+hr.hr{
+    background-color:orange;
+    
+}
+
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="col my-4">
+        <h2 class= "heading">Step 1 - Cart Express Checkout - Review Your Cart Items</h2>
+        <hr class="hr">
+        <div class="container">
+            <div class="container">
+                <div class="container">
+                    <div class="container">
+        <div class="col my-4">
+            <ul id="items" class="list-group">
+
+
+            </ul>
+            
+    <div class="p-3 mb-2 bg-secondary text-white mt-3"><b>Your Total Bill is Rs. <span id="totalPrice"></span>. Fill your detials Below to Confirm your Order. Thanks for Shopping from our Website. </b></div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+    </div>
+    <div class="col my-4">
+        <h2 class="heading">Step 2 - Enter Address & Other Details:</h2>
+        <hr class="hr">
+        <div class="container">
+            <div class="container">
+                <div class="container">
+                    <div class="container">
+        <form method="POST", action="/www.VaayuInterior.in/checkout/">{% csrf_token %}
+            <input type="hidden" name="itemsJson" id="itemsJson">
+            <input type="hidden" name="amount" id="amount">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputname">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input type="text" class="form-control" id="address1" name="address1" placeholder="1234 Main St">
+            </div>
+            <div class="form-group">
+                <label for="inputAddress2">Address line 2</label>
+                <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, studio, or floor">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputCity">City</label>
+                    <input type="text" class="form-control" id="city" name="city">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputState">State</label>
+                    <input type="text" class="form-control" id="state" name="state"  placeholder="Enter State">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputZip">Zip</label>
+                    <input type="text" class="form-control" id="zip_code" name="zip_code">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputZip">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone">
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox"  value=""><b> Pay By Cash</b></label>
+              </div>
+            <button type="submit" class="btn btn-outline-danger">Place Order</button>
+        </form>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+if (localStorage.getItem('mecart') == null) {
+    var mecart = {};
+} else {
+    mecart = JSON.parse(localStorage.getItem('mecart'));
+}
+console.log(mecart);
+var sum = 0;
+var totalPrice =0;
+if ($.isEmptyObject(mecart)) {
+    //if object is empty
+    mystr = `<p>Your cart is empty, please add some items to your cart before checking out!</p>`
+    $('#items').append(mystr);
+} else {
+    for (item in mecart) {
+        let name = mecart[item][1];
+        let quantity = mecart[item][0];
+        let itemPrice = mecart[item][2];
+        sum = sum + quantity;
+        totalPrice = totalPrice + quantity* itemPrice;
+        mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    <b class="bold">${name}</b>
+                    <span class="badge badge-primary badge-pill"><b class="bold1">${quantity}</b></span>
+                </li>`
+        $('#items').append(mystr);
+    }
+}
+document.getElementById('mecart').innerHTML = sum;
+
+document.getElementById('totalPrice').innerHTML = totalPrice;
+$('#itemsJson').val(JSON.stringify(mecart));
+{% if thank %}
+alert('Thanks for ordering with us.Your order id is {{id}}. Use it to track your Order');
+localStorage.clear();
+document.location = '/www.VaayuInterior.in';
+{% endif %}
+$('#amount').val($('#totalPrice').html())
+</script>
+{% endblock %}

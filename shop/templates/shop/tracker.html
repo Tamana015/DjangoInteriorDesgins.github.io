@@ -1,0 +1,144 @@
+{% extends 'shop/basic.html' %}
+{% block title%}Cart Tracker{% endblock %}
+{% block css %}
+p.aligncenter {
+    text-align: end;
+}
+{% endblock %}
+{% block body %}
+{% load static %}
+<div style="background-image: url({% static 'shop/wee.jpg' %});background-repeat: no-repeat; background-size: cover ;height:43rem;">
+<div class="container" >
+    <div class="col my-4">
+        <h2 style="font-family: Sofia;font-size: 22px; padding-top: 2em;">Enter your Order Id and Email address to track your order</h2>
+        <form method="post" action="#" id="trackerForm">{% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-3" style="padding-top:2em">
+                    <label for="inputname"><b> Id</b></label>
+                    <input type="text" class="form-control" id="orderId" name="orderId" placeholder="Order Id">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputEmail4" style="padding-top:2em"><b>Email</b></label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                </div>
+                <div class="form-group col-md-5 ">
+                    <p class="aligncenter">
+                        <img src="{% static 'shop/weh.png' %}" width="400px" height="150px" alt="centered image" />
+                    </p>
+                </div>
+                <button type="submit" class="btn btn-dark" style="font-family: Georgia, 'Times New Roman', Times, serif;">Track Order</button>
+            </div>
+    </div>
+    <div class="col my-4">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+        <h2 style="font-family: Sofia;font-size: 22px;">Your Order Status</h2>
+        <div class="my-4">
+            <ul class="list-group" id="items" >
+                <p style='font-style:italic;color:gray'>Enter your order Id and Email and click Track Order to find details about your order!</p>
+            </ul>
+        </div>
+        <h2 style="font-family: Sofia;font-size: 22px;">Your Order Details</h2>
+        <div class="my-4">
+            <ul class="list-group" id="citems">
+            </ul>
+        </div>
+        
+            </div>
+            </div>
+</div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+$('#trackerForm').submit(function(event) {
+    $('#items').empty();
+    var formData = {
+        'orderId': $('input[name=orderId]').val(),
+        'email': $('input[name=email]').val(),
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+    };
+    $.ajax({
+            type: 'POST',
+            url: '/www.VaayuInterior.in/tracker/',
+            data: formData,
+            encode: true
+        })
+        .done(function(data) {
+            $('#citems').empty();
+            console.log(data)
+            data = JSON.parse(data);
+            if (data['status']=='success') {
+                updates = data['updates'];
+                for (i = 0; i < updates.length; i++) {
+                    let text = updates[i]['text'];
+                    let time = updates[i]['time'];
+                    mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${text}
+                    <span class="badge badge-primary badge-pill">${time}</span>
+                </li>`
+                    $('#items').append(mystr);
+
+                }
+                mecart = JSON.parse(data['itemsJson']);
+                console.log(mecart);
+                for (item in mecart) {
+                let name = mecart[item][1];
+                let qty = mecart[item][0];
+                mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${name}
+                    <span class="badge badge-primary badge-pill">${qty}</span>
+                </li>`
+                $('#citems').append(mystr);
+            }
+            } else {
+                mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p style='font-style:italic;color:gray'>Sorry, We are not able to fetch this order id and email. Make sure to type correct order Id and email</p></li>`
+                mystrs = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p style='font-style:italic;color:gray'>Sorry, Your cart is empty.</p></li>`
+                
+                $('#items').append(mystr);
+                $('#citems').append(mystrs);
+            }
+            // Fill in the order details
+           
+        });
+    event.preventDefault();
+});
+
+
+if(localStorage.getItem('mecart') == null){
+    var mecart = {};
+    }
+    else
+    {
+    mecart = JSON.parse(localStorage.getItem('mecart'));
+    var sum=0;
+    for (var item in mecart){
+      sum = sum + mecart[item][0];
+    }
+    document.getElementById('mecart').innerHTML= sum;
+    }
+    $('.mecart').click(function(){
+    var idstr = this.id.toString();
+    if (mecart[idstr] != undefined){
+    mecart[idstr] = mecart[idstr] + 1;
+    }
+    else
+    {
+    mecart[idstr] = 1;
+    
+    }
+    var sum=0;
+    for (var item in mecart){
+      sum = sum + mecart[item][0];
+    }
+    localStorage.setItem('mecart', JSON.stringify(mecart));
+    document.getElementById('mecart').innerHTML= sum;
+    });
+    $('#popcart').popover();
+    document.getElementById("popcart").setAttribute('data-content', '<h5>Cart for your items in my shopping cart</h5>');
+    
+</script>
+{% endblock %}

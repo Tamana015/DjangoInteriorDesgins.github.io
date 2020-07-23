@@ -1,0 +1,49 @@
+ {% extends 'shop/basic.html' %}
+ {% block title %}About Page{% endblock %}
+ {% block css %}
+ hr.page1 {
+    border: 1px solid orange;
+  }
+  p.paragraph{
+      color:grey;
+      padding-left:100px;
+  }
+  pre.para{
+      color:grey;
+  }
+ {% endblock %}
+ {% block body %}
+ <div class="container">
+     <h1 style='color:orange; padding-top: 10px; padding-bottom: 2px;'>about us</h1>
+     <hr class='page1'>
+     <main role="main">
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+          <div class="container" style='  font-family: Arial, Helvetica, sans-serif; padding-top:10px'>
+            <p>Interior Design Media is the global, industry-leading design publication, website and 
+                events company serving the interior design, architectural and facility management audiences.
+                 For over 80 years, Interior Design magazine—published by SANDOW, which builds smart businesses
+                  driven by innovation and design—has been the essential design authority for every professional,
+                   on all projects, throughout the design process. Interior Design Events connects the industry,
+                    promoting creative leadership, innovation and collaboration across a wide range of practice areas
+                     and platforms. Interior Design’s digital companion, interiordesign.net, is the go-to site for
+                 relevant and real-time content for the industry's largest and most engaged design audience.</p>
+               
+        </div>
+        <a href="/www.VaayuInterior.in"><p class= "paragraph">See recent issues of Interior Design magazine » </p></a>
+        <p>For more information, please refer to the following pages:</p>
+        <p><a href="/www.VaayuInterior.in/login">Subscriptions</a> For all information on subscriptions, including new subscriptions, existing subscriptions,
+             renewals, address changes, gift subscriptions, or special subscription rates.</p>
+        <p><a href="/www.VaayuInterior.in/contact">Contact Us</a> For all information on subscriptions, including new subscriptions, existing subscriptions,
+                renewals, address changes, gift subscriptions, or special subscription rates.</p>
+        <p>For other inquiries, please call: 917-934-200929</p>
+        <p>Address all communication (other than subscription) to:</p>
+        <pre class="para">
+        Interior Design
+        SHADOW
+        1019 Parks Avenue, 9th Floor
+        New York, NY 10178
+        </pre>
+            </div>
+
+ {% endblock %}

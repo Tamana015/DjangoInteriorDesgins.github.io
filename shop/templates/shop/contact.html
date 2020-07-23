@@ -1,0 +1,156 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Contact Page{% endblock %}
+{% block css %}
+h2.head{
+    text-align:center;
+    padding-top:40px;
+    font-size:50px;
+  
+}
+div.container{
+    background:color:grey;
+}
+p.para{
+    padding-left:350px;
+    padding-top:25px;
+    font-size:20px;
+    color:grey;
+    font-style:italic;
+    
+}
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+img {
+  border-radius: 50%;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+div.form-group{
+    font-size:bold;
+}
+h5.paga{
+    padding-top:30px;
+    padding-bottom:20px;
+    font-style:bold;
+    text-align:center;
+    font-size:5rem;
+    font-family:italic;
+}
+div.col-md-5{
+    padding-top:15px;
+    background-color:gray;
+}
+
+{% endblock %}
+{% block body %}
+{% load static %}
+<div class="container">
+  
+    <h2 class="head">The Support Team is here to help.</h2>
+    <p class = "para">Our current response time within 10 minutes . . . .</p>
+
+    <div class="row" style="padding-top: 4rem;padding-bottom: 2rem;">
+  
+      <div class="column">
+        <img src="{% static 'shop/Tina.jpg' %}" alt="Snow" style="width:60%">
+        <h5 style="color:black;font-style:bold;font-family:inherit;padding-left:1rem;padding-top: 1rem;"><b>Mrs.</b> Samera Dogra</h5>
+      </div>
+      <div class="column">
+        <img src="{% static 'shop/Rahul.jpg' %}" alt="Forest" style="width:60%">
+        <h5 style="color:black;font-style:bold;font-family:inherit;padding-left:2.5rem;padding-top: 1rem;"><b>Mr.</b> John Oliver</h5>
+      </div>
+      <div class="column">
+        <img src="{% static 'shop/tanya.jpg' %}" alt="Mountains" style="width:60%">
+        <h5 style="color:black;font-style:bold;font-family:inherit;padding-left:3rem;padding-top: 1rem;"><b>Miss.</b> Eli Rose</h5>
+     
+      </div>
+    </div>
+
+    <div class="col-sm-3 col-md-11 col-lg-11" style="background-color: darkgray; padding-left: 10rem;padding-right:10rem ;" >
+    <h5 class="paga">Fill the Detials:</h5>
+    <form action="/www.VaayuInterior.in/contact/" method="POST">{% csrf_token %}
+        <div class="form-group">
+          <label for="name"><b>First Name</b></label>
+          <input type="text" class="form-control" id="first_name"  name="first_name" placeholder="Your First Name. . . . ">
+        </div>
+        <div class="form-group">
+            <label for="name"><b>Last Name</b></label>
+            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Your Last Name. . . .">
+          </div>
+          <div class="form-group">
+            <label for="name"><b>Email address</b></label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Your email addresss. . . .">
+          </div>
+          <div class="form-group">
+            <label for="name"><b>Phone Number</b></label>
+            <input type="tel" class="form-control" name="number" id="number" placeholder="Your Phone Number. . . . ">
+          </div>
+          <div class="form-group">
+            <label for="name"><b>Region/State</b></label>
+            <input type="text" class="form-control" id="region" name="region" placeholder="Your Region. . . .">
+          </div>
+        <div class="form-group">
+          <label for="desc"><b>Description</b></label>
+          <textarea class="form-control" id="desc" name="desc" placeholder="Your Description. . .  ." rows="3"></textarea>
+        </div>
+      <p style="text-align: center;">
+              <button type="submit" class="btn btn-danger" style=" margin: 4px 2px;">Submit</button></p>
+    </form>
+    </div>
+
+</div>
+</div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+  if(localStorage.getItem('mecart') == null){
+    var mecart = {};
+    }
+    else
+    {
+    mecart = JSON.parse(localStorage.getItem('mecart'));
+    var sum=0;
+    for (var item in mecart){
+      sum = sum + mecart[item][0];
+    }
+    document.getElementById('mecart').innerHTML= sum;
+    }
+    $('.mecart').click(function(){
+    var idstr = this.id.toString();
+    if (mecart[idstr] != undefined){
+    mecart[idstr] = mecart[idstr] + 1;
+    }
+    else
+    {
+    mecart[idstr] = 1;
+    
+    }
+    var sum=0;
+    for (var item in mecart){
+      sum = sum + mecart[item][0];
+    }
+    localStorage.setItem('mecart', JSON.stringify(mecart));
+    document.getElementById('mecart').innerHTML= sum;
+    });
+    $('#popcart').popover();
+    document.getElementById("popcart").setAttribute('data-content', '<h5>Cart for your items in my shopping cart</h5>');
+    
+{% if thank %}
+alert('Thank you for contact with our website');
+document.location = '/www.VaayuInterior.in/contact';
+{% endif %}
+</script>
+{% endblock %}

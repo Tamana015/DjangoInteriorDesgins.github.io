@@ -1,0 +1,92 @@
+
+{% extends 'blog/basic.html' %}
+{% block title %}Blog Page{% endblock %}
+{% block css %}
+hr.hr{
+    background-color:black;
+}
+h1.head{
+  font-family: inherit;
+  font-weight:500;
+  color:inherit;
+  text-align:center;
+  line height:1.1;
+}
+h1.aligncenter{
+  color:black;
+  font-style:bold;
+  font-family: 'Roboto Slab', serif;
+  padding-top:2.5em;
+  padding-left:3em;
+  font-size:50px;
+}
+pre.pre{
+  padding-left:9em;
+  font-family: 'Roboto Slab', serif;
+}
+{% endblock %}
+{% block body %}
+{% load static %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-6 col-lg-6" style="background-color: #f5f5f0">
+      <h1 class="aligncenter">
+        Elegance In<br> Interior Desgin.
+      </h1>
+      <pre class="pre">
+        Modern interior designs have to take many things 
+        into consideration.It has to be look at how much 
+        money is in the budget and how we can be extends
+        to the overall design of the interiors.
+
+        <a href="blogpost"><button type="button" class="btn btn-danger" >know more</button></a>
+      </pre>
+      
+    </div>
+    <div class="col-sm-9 col-md-6 col-lg-6" style="background-color:cornsilk;background-image: url({% static 'shop/wes.jpg' %});background-repeat: no-repeat; background-size: cover ;height:35rem;">
+  
+    </div>
+  </div>
+</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+{% endblock %}
+{% block js %}
+<script>
+if(localStorage.getItem('mecart') == null){
+    var mecart = {};
+    }
+    else
+    {
+    mecart = JSON.parse(localStorage.getItem('mecart'));
+    var sum=0;
+    for (var item in mecart){
+      sum = sum + mecart[item][0];
+    }
+    document.getElementById('mecart').innerHTML= sum;
+    }
+    $('.mecart').click(function(){
+    var idstr = this.id.toString();
+    if (mecart[idstr] != undefined){
+    mecart[idstr] = mecart[idstr] + 1;
+    }
+    else
+    {
+    mecart[idstr] = 1;
+    
+    }
+    var sum=0;
+    for (var item in mecart){
+      sum = sum + mecart[item][0];
+    }
+    localStorage.setItem('mecart', JSON.stringify(mecart));
+    document.getElementById('mecart').innerHTML= sum;
+    });
+    $('#popcart').popover();
+    document.getElementById("popcart").setAttribute('data-content', '<h5>Cart for your items in my shopping cart</h5>');
+        
+</script>
+{% endblock %}

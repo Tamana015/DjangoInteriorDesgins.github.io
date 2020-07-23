@@ -1,0 +1,297 @@
+{% extends 'shop/basic.html' %}
+{% block css %}
+          .col-md-3
+          {
+          display: inline-block;
+          margin-left:-4px;
+          }
+
+          .carousel-indicators .active {
+          background-color: gray;
+            }
+
+          .col-md-3 img{
+
+          max-width: 277px;
+          height: 202px;
+          }
+
+          body .carousel-indicator li{
+          background-color: black;
+          }
+
+          body .carousel-indicators{
+          bottom: -40px;
+          }
+          .carousel-indicator li{
+            background-color:grey;
+          }
+
+          body .carousel-control-prev-icon,
+          body .carousel-control-next-icon{
+      
+          background-color: black;
+          }
+
+          .carousel-control-prev,
+          .carousel-control-next{
+          top: auto;
+              padding-bottom: initial;
+    padding-left: 29px;
+    padding-top: -25px;
+          .sansserif {
+            font-family:Regular 400 italic;
+          }
+bottom: auto;
+          }
+           body .no-padding{
+           padding-left: 0,
+           padding-right: 0;
+           }
+{% endblock %}
+
+{% block body %}
+{% load static %}
+<div class="jumbotron p-4 p-md-5 text-white rounded bg-dark" style="background-image: url({% static 'shop/index.jpg' %});height:30rem;background-repeat: no-repeat; background-size: cover ;">
+  <div class="col-md-6 px-0">
+    <h1 class="display-4 font-italic" style="font-family: sans-serif ;color:white;font-weight: 10px;">WELCOME IN INTERIOR DESGIN</h1>
+  </div>
+</div>
+<div class="container" >
+
+    <!--Slideshow starts here -->
+    {% for product, range, nSlides in allProds %}
+    <h5 class="my-4"style="font-size:20px; font-style:Regular 400"><b>Recommended Samples for {{product.0.category}}</b></h5>
+    <div class="row">
+    <div id="demo{{forloop.counter}}" class="carousel slide my-3" data-ride="carousel">
+    <ul class="carousel-indicators">
+      <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+
+      {% for i in range %}
+      <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}" ></li>
+      {% endfor %}
+    </ul>
+
+
+    <div class="container carousel-inner no-padding">
+
+      <div class="carousel-item active">
+     
+
+      {% for i in product %}
+        <div class="col-xs-3 col-sm-3 col-md-3">
+          <div class="card" style="width: 18rem;">
+            <img src='/media/{{i.image}}' class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h5>
+              <p class="card-text">{{i.desc|slice:"0:53"}}....</p>
+              <h6 class="card-title" ><b>Price. </b><span id="pricepr{{i.id}}">{{i.price}}</span> </h6>
+              <span id="divpr{{i.id}}" class="divpr">
+              <button id='pr{{i.id}}' class="btn btn-outline-danger mecart  ">BOOK NOW</button>
+                </span>
+              <a href="/www.VaayuInterior.in/productview/{{i.id}}"><button id='view{{i.id}}' class="btn btn-outline-danger mecart mx-4">VIEW</button></div>
+              </a>
+              </div>
+        </div>
+      {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+      </div><div class="carousel-item">
+      {% endif %}
+           <!-- left and right controls for the slide -->
+      {% endfor %}
+    </div>
+  </div>
+
+       <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        </a>
+  </div>
+  
+  
+    {% endfor %}
+</div>
+
+  </div>
+<section class="about_us padding_top" style='padding-top: 8em;'>
+  <div class="container">
+      <div class="row align-items-center justify-content-center">
+          <div class="col-lg-8">
+              <div class="about_us_text text-center">
+                  <h5 style='font-family: bold; font-size: 4ex;'>About our Store</h5>
+                  <h2 class="sansserif" style='font-family: bold; font-size: 5ex;'>Your home should tell the story of who you are,
+                     and be a collection of what you love</h2>
+                  <p>"The essence of interior design will always be about people and
+                     how they live. It is about the realities of what makes for an
+                     attractive, civilized, meaningful environment, not about 
+                     fashion or what's in or what's out.”It’s easy to dream about
+                      a makeover or renovation for your home, but another to fully nut
+                       out what it is you want to achieve from that reno or makeover. 
+                       It might be as simple as “we need more room”, or 
+                     it could be complex, like “we need a home that’s beautiful, functional and reflects who we are”...</p>
+                    <a href="/www.VaayuInterior.in/about/"><button type="button" class="btn btn-dark">Read more</button></a>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<section class="our_service padding_bottom" style="padding-top:15ex;">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-6">
+              <div class="section_tittle">
+                  <p style='font-size:30px; font-family:bold; color:black'>our service</p>
+                  <h2 style="font-size:70px; font-family:Bold 700;color:gray">what we offer</h2>
+              </div>
+          </div>
+      </div>
+      <div class="row align-items-center filtr-container">
+          <div class="col-lg-4 col-md-6" style=' padding-right: 20ex; padding-top:15ex;'>
+              <div class="single_offer_text text-center wedding">
+                  <span class="flaticon-love-and-romance"></span>
+                  <h4 style="font-style: bold; font-family:Times New Roman, Times, serif; font-size:3em; padding-top: 2rem; padding-bottom: 2rem;" >Office</h4>
+                  <p>World the end of summer the sweltering heat makes human
+                      sweat in the night and man plants and trees wilt even</p>
+                      <a href="/www.VaayuInterior.in/office"><button type="button" class="btn btn-dark" style=" margin: 4px 2px;">Read more</button></a>
+              </div>
+              <div class="single_offer_img d-none d-md-block">
+              </div>
+            </div>
+          <div class="col-lg-8 col-md-6" >
+              <div class="single_offer_img d-none d-md-block">
+              </div>
+              <div class="single_offer_text text-center nature">
+                  <span class="flaticon-leaf"></span>
+                 
+                <img src="{% static 'shop/office.jpg' %}" alt="Office" style="width:60%; border-radius: 40%;">
+                </div>
+          </div>
+          <div class="row align-items-center filtr-container" style="padding-top: 3em;">
+            <div class="col-lg-4 col-md-6" style=' padding-right: 20ex; padding-top:15ex;'>
+                <div class="single_offer_text text-center wedding">
+                    <span class="flaticon-love-and-romance"></span>
+                    <img src="{% static 'shop/test11.jpg' %}" alt="Office" style="width: 22em; border-radius: 40%;">
+                  
+                  </div>
+                <div class="single_offer_img d-none d-md-block">
+                </div>
+              </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="single_offer_img d-none d-md-block">
+                </div>
+                <div class="single_offer_text text-center nature">
+                    <span class="flaticon-leaf"></span>
+                    <h4 style='font-style: bold; font-family:Times New Roman, Times, serif; font-size:3em; padding-top: 2rem; padding-bottom: 2rem;'>House Decore</h4>
+                    <p>that the monsoon clouds are soon coming, there is a
+                        strange silence in the ears, the sky gets darker and
+                        darker, the flash of lightning illuminates the dark
+                        skies all time needs band the sound of thunder fills the heart with fear.</p>
+                        <a href="/www.VaayuInterior.in/homedecore"><button type="button" class="btn btn-dark" style=" margin: 4px 2px;">Read more</button></a>
+                </div>
+            </div>
+  </div>
+</section>
+<!-- Footer -->
+</div>
+</div>
+</div>
+</div>
+<footer class="page-footer font-small white" style="background-color:black; padding-top:0px;">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3" style="color:white">© 2020 Copyright:
+    <a href="https://mdbootstrap.com/" style="color:white" > VaayuDesginers.in</a>
+  
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+</div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+if(localStorage.getItem('mecart') == null){
+var mecart = {};
+}
+else
+{
+mecart = JSON.parse(localStorage.getItem('mecart'));
+updateCart(mecart);
+}
+//$('.mecart').click(function(){
+$(".divpr").on('click','button.mecart',function(){
+var idstr = this.id.toString();
+if (mecart[idstr] != undefined){
+quantity = mecart[idstr][0] + 1;
+}
+else
+{
+quantity =1;
+name = document.getElementById('name'+ idstr).innerHTML;
+price = document.getElementById('price'+ idstr).innerHTML;
+mecart[idstr] = [quantity, name, parseInt(price)]; 
+
+}
+updateCart(mecart);
+});
+
+$('#popcart').popover();
+updatePopover(mecart);
+function updatePopover(mecart){
+  var popStr="";
+  popStr = popStr + "<h5 style='font-style:italic;font-family:bold '> Your Booked Items in my Cart </h5><div class='mx-2 my-2'>";
+  var i=1;
+  for (var item in mecart){
+    popStr = popStr + "<b>" + i + "</b>. ";
+    popStr =  popStr + document.getElementById('name' + item).innerHTML.slice(0,20) + '<b>'+"....  Quantity=  " + '</b>' + mecart[item][0] + '<br>';
+    i =i+1;
+  }
+  popStr = popStr + "</div> <a href='/www.VaayuInterior.in/checkout'><button class='btn btn-outline-dark mx-2' id ='checkout'>Checkout</button></a><a href='/www.VaayuInterior.in'><button class='btn btn-outline-dark mx-2'  onclick='clearCart()' id ='clearCart'>Clear Cart</button>  </a>   "
+  document.getElementById('popcart').setAttribute('data-content', popStr);
+  $('#popcart').popover('show');
+}
+ 
+// clear cart
+function clearCart(){
+  mecart= JSON.parse(localStorage.getItem('mecart'));
+  for (var item in mecart){
+    document.getElementById('div' + item).innerHTML = '<button id="' + item + '" class= "btn btn-outline-danger">BOOK NOW</button>'
+   }
+  localStorage.clear();
+  mecart={};
+  updateCart(mecart);
+  }
+function updateCart(mecart){
+  var sum=0;
+  for (var item in mecart){
+    console.log(item);
+    sum= sum+ mecart[item][0];
+    console.log(sum);
+    document.getElementById('div'+ item).innerHTML = "<button id='minus" + item + "' class='btn btn-outline-danger minus'>-</button> <span id='val" + item + "''>" + mecart[item][0] + "</span> <button id='plus" + item + "' class='btn btn-outline-danger plus'> + </button>";
+  }
+  localStorage.setItem('mecart',JSON.stringify(mecart));
+  document.getElementById('mecart').innerHTML = sum;
+  updatePopover(mecart);
+  }
+// If plus or minus button is clicked, change the cart as well as the display value
+$('.divpr').on("click", "button.minus", function() {
+  a = this.id.slice(7, );
+  mecart['pr' + a][0] = mecart['pr' + a][0] - 1;
+  mecart['pr' + a][0] = Math.max(0, mecart['pr' + a][0]);
+  document.getElementById('valpr' + a).innerHTML = mecart['pr' + a][0];
+  updateCart(mecart);
+});
+$('.divpr').on("click", "button.plus", function() {
+  console.log('plus click');
+  a = this.id.slice(6, );
+  mecart['pr' + a][0] = mecart['pr' + a][0] + 1;
+  document.getElementById('valpr' + a).innerHTML = mecart['pr' + a][0];
+  updateCart(mecart);
+});
+
+</script>
+{% endblock %}

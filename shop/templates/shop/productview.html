@@ -1,0 +1,76 @@
+{% extends 'shop/basic.html' %}
+{% block title %}{{product.product_name}}{% endblock %}
+{% block body %}
+<div class="container my-5 mx-9">
+    <div class="row">
+    <div class="col-md-5">
+    <div class="row">
+        <img src="/media/{{product.image}}" width="390px" height="350px">
+    </div>
+        <div class="row">
+            <button id="pr{{id}}"  class="btn btn-outline-danger  mecart mx-3 my-4" data-toggle="tooltip" data-placement="bottom" title="BOOK NOW" >BOOK NOW</button>
+            
+            <button class="btn btn-outline-danger   my-4 ">ORDER</button>
+        
+        </div>
+
+    </div>
+
+    <div class="col-md-7">
+        <h5 style='font-style:bold; font-size: 30px;'>{{product.product_name}}</h5>
+        <p><b>Asstimate Price Rs.{{product.price}} </b></p>
+        <p><b>Desgined and Introduced by {{product.product_name}} Company</b></p>
+        <p style='  text-align: justify;
+        text-justify: inter-word;'>{{product.desc}}.</p>
+
+
+    </div>
+    </div>
+</div>
+
+</div>
+</div>
+
+
+{% endblock %}
+
+
+{% block js %}
+    <script>
+    if(localStorage.getItem('mecart') == null){
+    var mecart = {};
+    }
+    else
+    {
+    mecart = JSON.parse(localStorage.getItem('mecart'));
+    var sum=0;
+    for (var item in mecart){
+      sum = sum + mecart[item][0];
+    }
+    document.getElementById('mecart').innerHTML= sum;
+    }
+    $('.mecart').click(function(){
+    var idstr = this.id.toString();
+    if (mecart[idstr] != undefined){
+
+    mecart[idstr][0] = mecart[idstr][0] + 1;
+    }
+    else
+    {
+    console.log('2');
+    quantity =1;
+    name = '{{product.product_name}}';
+    price = '{{product.price}}';
+    mecart[idstr] = [quantity, name, parseInt(price)]; 
+    }
+    var sum=0;
+    for (var item in mecart){
+      sum = sum + mecart[item][0];
+    }
+    localStorage.setItem('mecart', JSON.stringify(mecart));
+    document.getElementById('mecart').innerHTML= sum;
+    });
+    $('#popcart').popover();
+    document.getElementById("popcart").setAttribute('data-content', '<h5>Cart for your items in my shopping cart</h5>');
+    </script>
+    {% endblock %}
